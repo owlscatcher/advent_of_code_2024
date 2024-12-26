@@ -24,4 +24,16 @@ module CoordinateService
   def calc_total_distance(data)
     data.sum
   end
+
+  def calc_similarity(options = {})
+    reference = options.fetch(:reference, nil)
+    target = options.fetch(:target, nil)
+
+    raise ArgumentError, "Argument can't be nil" if [reference, target].include? nil
+    raise ArgumentError, "Arguments can't be the same" if reference == target
+
+    reference.each_with_object([]) do |num, acc|
+      acc << num * target.count(num)
+    end.sum
+  end
 end
